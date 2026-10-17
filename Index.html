@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>KATA NAMA — เรียนรู้คำนามภาษามลายู</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chonburi&family=Baloo+2:wght@500;600;700;800&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal-deep:#0E3B39;
+  --teal-mid:#155551;
+  --teal-soft:#1F6E64;
+  --cream:#FBF3E1;
+  --cream-2:#FFFBF2;
+  --hibiscus:#E6425A;
+  --hibiscus-dark:#C22C46;
+  --gold:#F0A93C;
+  --gold-soft:#F6C978;
+  --gold-bright:#FFCF3F;
+  --emerald:#1E9463;
+  --leaf:#4C9A6A;
+  --leaf-dark:#357450;
+  --ink:#17302C;
+  --ink-soft:#3F5651;
+  --danger:#D64545;
+  --radius:22px;
+  --shadow:0 12px 30px rgba(14,59,57,.18);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:'Sarabun',sans-serif;
+  background:var(--teal-deep);
+  color:var(--ink);
+  overflow-x:hidden;
+  min-height:100vh;
+}
+h1,h2,h3,.display{font-family:'Chonburi',cursive;}
+.malay{font-family:'Baloo 2',sans-serif; font-weight:700;}
+
+/* ---------- background pattern ---------- */
+.bg-pattern{
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  opacity:.10;
+  background-image:
+    radial-gradient(circle at 10% 20%, var(--gold) 0 2px, transparent 3px),
+    radial-gradient(circle at 80% 10%, var(--gold) 0 2px, transparent 3px),
+    radial-gradient(circle at 50% 60%, var(--gold) 0 2px, transparent 3px),
+    radial-gradient(circle at 30% 85%, var(--gold) 0 2px, transparent 3px),
+    radial-gradient(circle at 90% 75%, var(--gold) 0 2px, transparent 3px);
+  background-size:220px 220px;
+}
+
+/* ---------- app shell ---------- */
+.app{
+  position:relative; z-index:1;
+  max-width:900px; margin:0 auto;
+  min-height:100vh;
+  display:flex; flex-direction:column;
+  padding:18px 16px 110px;
+}
+
+/* ---------- progress flower (signature element) ---------- */
+.flower-wrap{
+  position:fixed; top:14px; right:14px; z-index:50;
+  width:64px; height:64px;
+  filter:drop-shadow(0 4px 10px rgba(0,0,0,.35));
+  cursor:pointer;
+}
+.flower-wrap svg{width:100%;height:100%;}
+.petal{fill:rgba(255,255,255,.18); transition:fill .5s ease, transform .5s ease; transform-origin:32px 32px;}
+.petal.lit{fill:var(--hibiscus);}
+.flower-center{fill:var(--gold);}
+.flower-wrap.bloom .petal.lit{ animation:pop .6s ease; }
+@keyframes pop{0%{transform:scale(.6)}60%{transform:scale(1.18)}100%{transform:scale(1)}}
+.flower-label{
+  position:fixed; top:80px; right:10px; z-index:50;
+  font-size:11px; color:var(--cream); background:rgba(0,0,0,.28);
+  padding:3px 9px; border-radius:20px; font-weight:600; letter-spacing:.2px;
+}
+
+/* ---------- pages ---------- */
+.page{display:none; animation:fadeIn .5s ease;}
+.page.active{display:block;}
+@keyframes fadeIn{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);}}
+
+.card{
+  background:var(--cream-2);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:22px 20px;
+  margin-bottom:16px;
+  position:relative;
+  overflow:hidden;
+}
+.eyebrow{
+  display:inline-flex; align-items:center; gap:6px;
+  font-family:'Baloo 2',sans-serif; font-weight:700; font-size:12.5px;
+  color:var(--teal-deep); background:var(--gold-soft);
+  padding:4px 12px; border-radius:20px; margin-bottom:10px; letter-spacing:.3px;
+}
+
+/* ---------- cover ---------- */
+.cover-page{
+  position:relative;
+  background:
+    radial-gradient(circle at 15% 8%, rgba(240,169,60,.35), transparent 45%),
+    radial-gradient(circle at 90% 85%, rgba(230,66,90,.35), transparent 50%),
+    linear-gradient(160deg, #07211F 0%, #0E3B39 35%, #1B6B5C 68%, #0A2E2B 100%);
+  overflow:hidden;
+  border-radius:0 0 28px 28px;
+  margin:-18px -16px 16px;
+  padding-bottom:10px;
+}
+.songket-strip{
+  height:16px; width:100%;
+  background:repeating-linear-gradient(-45deg,
+    var(--gold) 0 11px, var(--hibiscus) 11px 22px, var(--gold-bright) 22px 33px, var(--emerald) 33px 44px);
+  background-size:44px 16px;
+}
+.songket-strip.bottom{margin-top:18px;}
+.cover{
+  text-align:center; color:var(--cream);
+  padding:34px 18px 22px;
+  position:relative;
+}
+.cover-ring{
+  width:132px;height:132px;margin:0 auto 16px; position:relative;
+}
+.cover-badge{width:100%; height:100%;}
+.cover h1{
+  font-size:clamp(40px,9.5vw,66px); margin:0; color:var(--gold-bright);
+  text-shadow:0 4px 0 var(--hibiscus-dark), 0 8px 22px rgba(0,0,0,.35);
+  letter-spacing:1px;
+  -webkit-text-stroke:1px rgba(255,255,255,.15);
+}
+.cover .malay-sub{
+  font-size:clamp(17px,4.2vw,23px); color:var(--cream); margin-top:8px; font-weight:700;
+  text-shadow:0 2px 6px rgba(0,0,0,.35);
+}
+.cover .tagline{
+  margin-top:22px; font-size:clamp(15px,3.6vw,19px); color:var(--teal-deep);
+  display:flex; gap:10px; justify-content:center; flex-wrap:wrap; font-weight:700;
+}
+.cover .tagline span{
+  background:var(--gold-bright); padding:7px 16px; border-radius:20px;
+  border:2px solid rgba(255,255,255,.5); box-shadow:0 5px 14px rgba(0,0,0,.25);
+}
+.cover .tagline span:nth-child(2){background:var(--hibiscus); color:#fff;}
+.cover .tagline span:nth-child(3){background:var(--emerald); color:#fff;}
+.cover .tagline-th{color:var(--gold-bright); font-size:14.5px; margin-top:10px; font-weight:600;}
+.goal-card{
+  margin:26px auto 0; text-align:left; background:var(--cream-2);
+  border:3px solid var(--gold); border-radius:18px; padding:18px 20px;
+  box-shadow:0 10px 24px rgba(0,0,0,.25); max-width:640px; position:relative;
+}
+.goal-card::before{
+  content:''; position:absolute; inset:5px; border:1.5px solid var(--gold-soft); border-radius:13px; pointer-events:none;
+}
+.goal-card .malay{color:var(--hibiscus-dark); font-size:15px; line-height:1.6; font-weight:700;}
+.goal-card .th{color:var(--ink); font-size:14.5px; margin-top:8px;}
+.btn{
+  font-family:'Baloo 2',sans-serif; font-weight:700; font-size:16px;
+  border:none; cursor:pointer; padding:13px 28px; border-radius:50px;
+  background:var(--hibiscus); color:#fff; box-shadow:0 8px 18px rgba(230,66,90,.4);
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.btn:hover{transform:translateY(-2px); box-shadow:0 10px 22px rgba(230,66,90,.5);}
+.btn:active{transform:translateY(0);}
+.btn.secondary{background:var(--gold); box-shadow:0 8px 18px rgba(240,169,60,.4);}
+.btn.ghost{background:transparent; border:2px solid var(--cream); color:var(--cream); box-shadow:none;}
+.btn.small{padding:8px 16px; font-size:13.5px;}
+.start-wrap{margin-top:30px;}
+
+
+/* hibiscus svg used decoratively */
+.hibiscus-deco{position:absolute; opacity:.15;}
+
+/* ---------- headers within pages ---------- */
+.page-head{color:var(--cream); padding:6px 4px 18px;}
+.page-head h2{font-size:clamp(24px,5.2vw,32px); margin:4px 0 2px; color:var(--cream);}
+.page-head .sub{color:var(--gold-soft); font-size:14px; margin:0;}
+
+/* ---------- TOC ---------- */
+.toc-path{display:flex; flex-wrap:wrap; gap:10px; margin:14px 0 4px; justify-content:center;}
+.toc-step{
+  flex:1 1 90px; text-align:center; background:var(--teal-mid); color:var(--cream);
+  border-radius:16px; padding:14px 8px; font-family:'Baloo 2',sans-serif; font-weight:700;
+  border:2px solid rgba(255,255,255,.15); font-size:13px;
+  cursor:pointer; transition:transform .15s ease, background .2s ease;
+}
+.toc-step:hover{transform:translateY(-3px); background:var(--teal-soft);}
+.toc-step:active{transform:translateY(0);}
+.toc-step .n{
+  width:30px;height:30px;border-radius:50%;background:var(--gold);color:var(--teal-deep);
+  display:flex;align-items:center;justify-content:center;margin:0 auto 6px; font-size:14px;
+}
+.toc-list{margin:0; padding-left:0; list-style:none;}
+.toc-list li{
+  display:flex; align-items:center; gap:12px; padding:11px 6px;
+  border-bottom:1px dashed rgba(23,48,44,.15); font-size:15px; font-weight:600; color:var(--ink);
+  cursor:pointer; border-radius:10px; transition:background .2s ease;
+}
+.toc-list li:hover{background:#F2ECD7;}
+.toc-list li:active{background:#e9e0c2;}
+.toc-list li .num{
+  width:26px;height:26px;border-radius:50%;background:var(--teal-deep);color:var(--cream);
+  display:flex;align-items:center;justify-content:center;font-size:12px;flex:none;
+}
+.toc-list li .go-arrow{
+  margin-left:auto; color:var(--hibiscus); font-weight:800; font-size:16px; flex:none;
+}
+.mission-box{
+  background:linear-gradient(135deg,var(--gold-soft),var(--gold));
+  border-radius:18px; padding:18px 18px 14px; margin-top:6px;
+}
+.mission-box h3{margin:0 0 4px; color:var(--teal-deep); font-size:17px;}
+.mission-box .malay{color:var(--teal-deep); font-size:14px; display:block; margin-bottom:12px;}
+.mission-item{
+  display:flex; align-items:center; gap:10px; background:rgba(255,255,255,.55);
+  border-radius:12px; padding:9px 12px; margin-bottom:8px; font-size:13.5px; font-weight:600; color:var(--ink);
+  cursor:pointer; transition:background .2s ease, transform .15s ease;
+}
+.mission-item:hover{background:rgba(255,255,255,.85); transform:translateX(2px);}
+.mission-item:active{transform:translateX(0);}
+.mission-item .box{
+  width:20px;height:20px;border-radius:6px;border:2px solid var(--teal-deep); flex:none;
+  display:flex;align-items:center;justify-content:center; font-size:12px; color:#fff;
+}
+.mission-item.done .box{background:var(--leaf); border-color:var(--leaf-dark);}
+.mission-item.done{opacity:.75; text-decoration:line-through;}
+
+/* ---------- content cards ---------- */
+.def-block{font-size:15.5px; line-height:1.75;}
+.def-block .malay{display:block; font-size:16.5px; color:var(--teal-deep); margin-bottom:6px;}
+.mnemonic{
+  background:var(--teal-deep); color:var(--cream); border-radius:16px; padding:16px 18px;
+  margin-top:14px; font-size:14px; line-height:1.7;
+}
+.mnemonic b{color:var(--gold-soft);}
+
+table.cat-table{width:100%; border-collapse:collapse; margin-top:14px; font-size:14.5px;}
+table.cat-table th{
+  background:var(--teal-deep); color:var(--cream); text-align:left; padding:9px 12px;
+  font-family:'Baloo 2',sans-serif; font-size:13px; border-radius:8px 8px 0 0;
+}
+table.cat-table td{padding:9px 12px; border-bottom:1px solid #eee2c8;}
+table.cat-table tr:nth-child(even) td{background:#FBF3E1;}
+.chip-inline{
+  display:inline-block; background:var(--teal-soft); color:#fff; border-radius:8px;
+  padding:2px 9px; font-family:'Baloo 2',sans-serif; font-size:13px; margin:2px 3px 2px 0;
+}
+
+/* ---------- chip / word game elements ---------- */
+.word-row{display:flex; flex-wrap:wrap; gap:10px; margin-top:14px;}
+.chip{
+  font-family:'Baloo 2',sans-serif; font-weight:600; font-size:15px;
+  background:var(--cream); border:2px solid var(--teal-mid); color:var(--teal-deep);
+  padding:9px 18px; border-radius:14px; cursor:pointer; user-select:none;
+  transition:transform .15s ease, background .2s ease, color .2s ease, border-color .2s ease;
+}
+.chip:hover{transform:translateY(-2px);}
+.chip.selected{background:var(--teal-deep); color:var(--cream); border-color:var(--teal-deep);}
+.chip.correct{background:var(--leaf); border-color:var(--leaf-dark); color:#fff; cursor:default; animation:pop .4s ease;}
+.chip.wrong{animation:shake .4s ease; border-color:var(--danger);}
+.chip.placed{opacity:.5; pointer-events:none;}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
+
+.feedback-line{
+  margin-top:12px; font-size:14px; font-weight:600; min-height:20px; display:flex; align-items:center; gap:8px;
+}
+.feedback-line.ok{color:var(--leaf-dark);}
+.feedback-line.bad{color:var(--danger);}
+.score-pill{
+  display:inline-block; background:var(--teal-deep); color:var(--cream); font-family:'Baloo 2',sans-serif;
+  font-size:13px; padding:5px 14px; border-radius:20px; margin-top:10px;
+}
+.btn-retry{
+  font-family:'Baloo 2',sans-serif; font-weight:700; font-size:12.5px; cursor:pointer;
+  background:transparent; border:1.5px solid var(--teal-mid); color:var(--teal-deep);
+  padding:5px 13px; border-radius:20px; margin-top:10px; margin-left:8px;
+  transition:background .2s ease, color .2s ease, transform .15s ease;
+}
+.btn-retry:hover{background:var(--teal-deep); color:var(--cream); transform:translateY(-1px);}
+.btn-retry:active{transform:translateY(0);}
+.reveal-box{
+  margin-top:14px; background:#FFF3E0; border:1.5px dashed var(--gold); border-radius:14px;
+  padding:14px 16px; font-size:13.5px; line-height:1.7; display:none;
+}
+.reveal-box.show{display:block; animation:fadeIn .4s ease;}
+
+/* two-box categorize game */
+.dropzones{display:flex; gap:12px; margin-top:16px; flex-wrap:wrap;}
+.dropzone{
+  flex:1 1 140px; min-height:110px; background:#F2ECD7; border:2.5px dashed var(--teal-soft);
+  border-radius:16px; padding:12px; text-align:center;
+}
+.dropzone h4{margin:0 0 8px; font-family:'Baloo 2',sans-serif; color:var(--teal-deep); font-size:14px;}
+.dropzone .zone-chips{display:flex; flex-wrap:wrap; gap:6px; justify-content:center; min-height:30px;}
+.dropzone .zone-chips .chip{padding:5px 12px; font-size:13px; cursor:default;}
+
+/* sentence word-tap activity */
+.sentence-box{
+  font-size:19px; line-height:2.3; font-family:'Baloo 2',sans-serif; margin-top:14px; color:var(--ink);
+}
+.sentence-box .w{
+  cursor:pointer; padding:2px 5px; border-radius:6px; transition:background .2s, color .2s;
+}
+.sentence-box .w:hover{background:#eee;}
+.sentence-box .w.correct{background:var(--leaf); color:#fff;}
+.sentence-box .w.wrong{background:var(--danger); color:#fff; animation:shake .4s ease;}
+.sentence-box .punc{cursor:default;}
+
+/* true/false */
+.tf-item{
+  background:var(--cream); border-radius:14px; padding:14px 16px; margin-top:12px;
+  border:1.5px solid #eee2c8;
+}
+.tf-item p{margin:0 0 10px; font-size:14.5px; font-weight:600;}
+.tf-item .malay{color:var(--teal-deep);}
+.tf-btns{display:flex; gap:10px;}
+.tf-btn{
+  flex:1; font-family:'Baloo 2',sans-serif; font-weight:700; border:2px solid var(--teal-mid);
+  background:#fff; color:var(--teal-deep); padding:9px 0; border-radius:12px; cursor:pointer; font-size:13.5px;
+}
+.tf-btn.correct-pick{background:var(--leaf); border-color:var(--leaf-dark); color:#fff;}
+.tf-btn.wrong-pick{background:var(--danger); border-color:#a83232; color:#fff;}
+.tf-explain{font-size:12.5px; margin-top:8px; color:var(--ink-soft); display:none;}
+.tf-explain.show{display:block;}
+
+/* quiz */
+.quiz-item{background:var(--cream); border-radius:16px; padding:16px 18px; margin-top:14px; border:1.5px solid #eee2c8;}
+.quiz-item .q-title{font-family:'Baloo 2',sans-serif; font-weight:700; font-size:15px; color:var(--teal-deep); margin-bottom:2px;}
+.quiz-item .q-sub{font-size:13px; color:var(--ink-soft); margin-bottom:10px;}
+.opt{
+  display:block; width:100%; text-align:left; background:#fff; border:2px solid #e4dcc4;
+  padding:10px 14px; border-radius:12px; margin-bottom:8px; cursor:pointer; font-size:14.5px;
+  font-family:'Sarabun',sans-serif; font-weight:500;
+}
+.opt:hover{border-color:var(--teal-soft);}
+.opt.chosen-correct{background:var(--leaf); border-color:var(--leaf-dark); color:#fff; font-weight:700;}
+.opt.chosen-wrong{background:var(--danger); border-color:#a83232; color:#fff;}
+.opt.reveal-correct{border-color:var(--leaf-dark); box-shadow:0 0 0 2px var(--leaf) inset;}
+.opt[disabled]{cursor:default;}
+.quiz-explain{font-size:12.5px; color:var(--ink-soft); margin-top:6px; display:none;}
+.quiz-explain.show{display:block;}
+
+.summary-card{
+  background:linear-gradient(135deg,var(--teal-deep),var(--teal-mid)); color:var(--cream);
+  border-radius:20px; padding:20px 20px 18px; margin-top:16px;
+}
+.summary-card h3{margin:0 0 10px; color:var(--gold-soft); font-size:17px;}
+.summary-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px;}
+.summary-grid .box{background:rgba(255,255,255,.08); border-radius:12px; padding:10px 12px; font-size:13px;}
+.summary-grid .box b{display:block; color:var(--gold-soft); font-family:'Baloo 2',sans-serif; margin-bottom:2px;}
+
+.score-result{
+  text-align:center; margin-top:18px; padding:20px; border-radius:18px; background:var(--cream);
+  display:none;
+}
+.score-result.show{display:block; animation:fadeIn .5s ease;}
+.score-result .big{font-family:'Chonburi',cursive; font-size:34px; color:var(--hibiscus);}
+.score-result .tier{font-family:'Baloo 2',sans-serif; font-weight:700; font-size:17px; margin-top:6px; color:var(--teal-deep);}
+.score-result .tier-th{font-size:13px; color:var(--ink-soft); margin-top:4px;}
+
+/* ---------- custom modal (replaces native confirm/alert) ---------- */
+.modal-overlay{
+  position:fixed; inset:0; z-index:100; background:rgba(9,30,28,.55);
+  display:none; align-items:center; justify-content:center; padding:20px;
+  backdrop-filter:blur(2px);
+}
+.modal-overlay.show{display:flex; animation:fadeIn .25s ease;}
+.modal-card{
+  background:var(--cream-2); border-radius:20px; padding:26px 22px 22px; max-width:340px; width:100%;
+  text-align:center; box-shadow:0 20px 50px rgba(0,0,0,.35); border:3px solid var(--gold);
+}
+.modal-icon{font-size:36px; margin-bottom:6px;}
+.modal-card h3{margin:0 0 8px; color:var(--teal-deep); font-size:19px;}
+.modal-card p{margin:0 0 18px; font-size:13.5px; color:var(--ink-soft); line-height:1.6;}
+.modal-btns{display:flex; gap:10px; justify-content:center;}
+.modal-btns .btn, .modal-btns .btn.ghost{flex:1; padding:11px 10px; font-size:14px;}
+
+/* nav bar */
+.navbar{
+  position:fixed; bottom:0; left:0; right:0; z-index:40;
+  background:var(--teal-deep); border-top:1px solid rgba(255,255,255,.1);
+  padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+}
+.nav-btn{
+  font-family:'Baloo 2',sans-serif; font-weight:700; font-size:14px; color:var(--cream);
+  background:rgba(255,255,255,.1); border:none; border-radius:12px; padding:10px 16px; cursor:pointer;
+}
+.nav-btn:disabled{opacity:.3;}
+.dots{display:flex; gap:7px;}
+.dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.25); cursor:pointer;}
+.dot.active{background:var(--gold); width:22px; border-radius:5px;}
+
+.section-title{display:flex; align-items:center; gap:10px; margin-bottom:2px;}
+.section-title .ico{font-size:20px;}
+.section-title h3{margin:0; font-size:17px; color:var(--teal-deep);}
+.small-note{font-size:12.5px; color:var(--ink-soft); margin-top:2px;}
+
+@media(max-width:480px){
+  .cover h1{letter-spacing:0;}
+  .dropzones{flex-direction:row;}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-pattern"></div>
+
+<div class="flower-wrap" id="flowerWrap" title="ความคืบหน้าของฉัน">
+  <svg viewBox="0 0 64 64">
+    <g id="petalGroup">
+      <!-- 6 petals generated by JS -->
+    </g>
+    <circle class="flower-center" cx="32" cy="32" r="7"/>
+  </svg>
+</div>
+<div class="flower-label" id="flowerLabel">0/6 ภารกิจ</div>
+
+<div class="app">
+
+  <!-- ============ PAGE 0 — COVER ============ -->
+  <section class="page active" data-page="0">
+    <div class="cover-page">
+      <div class="songket-strip"></div>
+      <div class="cover">
+        <div class="cover-ring">
+          <svg class="cover-badge" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="57" fill="none" stroke="var(--gold-bright)" stroke-width="2.5" stroke-dasharray="4 5"/>
+            <circle cx="60" cy="60" r="49" fill="rgba(255,255,255,.10)" stroke="var(--gold)" stroke-width="2"/>
+            <g id="coverFlower" transform="translate(60,60)"></g>
+          </svg>
+        </div>
+        <h1 class="display">KATA NAMA</h1>
+        <div class="malay-sub malay">คำนามในภาษามลายูมาเลเซีย</div>
+        <div class="tagline">
+          <span class="malay">Kenali</span><span class="malay">Fahami</span><span class="malay">Gunakan</span>
+        </div>
+        <div class="tagline-th">รู้จัก · เข้าใจ · และนำไปใช้</div>
+
+        <div class="goal-card">
+          <span class="eyebrow">🎯 เป้าหมายการเรียนรู้ · Matlamat</span>
+          <span class="malay">Setelah belajar, murid dapat mengenal, membezakan dan menggunakan kata nama dengan betul.</span>
+          <div class="th">เมื่อเรียนจบบทนี้ นักเรียนจะสามารถ <b>รู้จัก แยกประเภท และใช้คำนาม</b> ในภาษามลายูได้อย่างถูกต้อง</div>
+        </div>
+
+        <div class="start-wrap">
+          <button class="btn" onclick="goTo(1)">Mula Belajar →</button>
+        </div>
+      </div>
+      <div class="songket-strip bottom"></div>
+    </div>
+  </section>
+
+  <!-- ============ PAGE 1 — TOC / MISI ============ -->
+  <section class="page" data-page="1">
+    <div class="page-head">
+      <span class="eyebrow">🗺️ เส้นทางการเรียนรู้</span>
+      <h2>Isi Kandungan</h2>
+      <p class="sub">สารบัญและภารกิจการเรียนรู้ของเรา</p>
+    </div>
+
+    <div class="toc-path">
+      <div class="toc-step" onclick="goTo(0)"><div class="n">1</div>Mula</div>
+      <div class="toc-step" onclick="goTo(2)"><div class="n">2</div>Kenali</div>
+      <div class="toc-step" onclick="goTo(3)"><div class="n">3</div>Fahami</div>
+      <div class="toc-step" onclick="goTo(4)"><div class="n">4</div>Cuba</div>
+      <div class="toc-step" onclick="goTo(4)"><div class="n">5</div>Main</div>
+      <div class="toc-step" onclick="goTo(5)"><div class="n">6</div>Cabaran</div>
+    </div>
+
+    <div class="card">
+      <ul class="toc-list">
+        <li onclick="goTo(2)"><span class="num">1</span> Apa itu Kata Nama? — คำนามคืออะไร <span class="go-arrow">→</span></li>
+        <li onclick="goTo(3)"><span class="num">2</span> Jenis-jenis Kata Nama — ประเภทของคำนาม <span class="go-arrow">→</span></li>
+        <li onclick="goTo(4)"><span class="num">3</span> Aktiviti Interaktif — กิจกรรมโต้ตอบ <span class="go-arrow">→</span></li>
+        <li onclick="goTo(5)"><span class="num">4</span> Kuiz Cabaran Kata Nama — แบบทดสอบท้าทาย <span class="go-arrow">→</span></li>
+      </ul>
+    </div>
+
+    <div class="mission-box">
+      <h3>🌺 Misi Saya</h3>
+      <span class="malay">"Saya boleh mengenal pasti kata nama."</span>
+      <div class="mission-item" id="m-mula" onclick="goTo(0)"><div class="box">✓</div> Mula — เปิดบทเรียน</div>
+      <div class="mission-item" id="m-kenali" onclick="goTo(2)"><div class="box">✓</div> Kenali — เรียนรู้ความหมายคำนาม</div>
+      <div class="mission-item" id="m-fahami" onclick="goTo(3)"><div class="box">✓</div> Fahami — เข้าใจ Am และ Khas</div>
+      <div class="mission-item" id="m-cuba" onclick="goTo(4)"><div class="box">✓</div> Cuba — ลองหาคำนามในประโยค</div>
+      <div class="mission-item" id="m-main" onclick="goTo(4)"><div class="box">✓</div> Main — เล่นเกมแยกหมวดคำ</div>
+      <div class="mission-item" id="m-cabaran" onclick="goTo(5)"><div class="box">✓</div> Cabaran — ผ่านแบบทดสอบท้าทาย</div>
+    </div>
+  </section>
+
+  <!-- ============ PAGE 2 — APA ITU KATA NAMA ============ -->
+  <section class="page" data-page="2">
+    <div class="page-head">
+      <span class="eyebrow">📖 บทที่ 1</span>
+      <h2>Apa itu Kata Nama?</h2>
+      <p class="sub">คำนามคืออะไร</p>
+    </div>
+
+    <div class="card">
+      <div class="def-block">
+        <span class="malay">Kata nama ialah perkataan yang digunakan untuk menamakan manusia, haiwan, benda, tempat dan sebagainya.</span>
+        คำนาม คือ คำที่ใช้เรียกชื่อ <b>คน สัตว์ สิ่งของ สถานที่</b> และสิ่งต่าง ๆ
+      </div>
+
+      <table class="cat-table">
+        <tr><th>Kategori</th><th>Contoh</th></tr>
+        <tr><td>Manusia (คน)</td><td><span class="chip-inline">guru</span><span class="chip-inline">murid</span><span class="chip-inline">ibu</span></td></tr>
+        <tr><td>Haiwan (สัตว์)</td><td><span class="chip-inline">kucing</span><span class="chip-inline">ayam</span><span class="chip-inline">ikan</span></td></tr>
+        <tr><td>Benda (สิ่งของ)</td><td><span class="chip-inline">buku</span><span class="chip-inline">pensel</span><span class="chip-inline">meja</span></td></tr>
+        <tr><td>Tempat (สถานที่)</td><td><span class="chip-inline">sekolah</span><span class="chip-inline">pasar</span><span class="chip-inline">rumah</span></td></tr>
+      </table>
+
+      <div class="mnemonic">
+        💡 <b>เทคนิคจำง่าย: "ใคร – อะไร – ที่ไหน"</b><br>
+        ถ้าคำตอบเป็นชื่อของ <b>คน / สัตว์ / สิ่งของ / สถานที่</b> มีโอกาสสูงว่าจะเป็น Kata Nama
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title"><span class="ico">⚡</span><h3>Mini Challenge</h3></div>
+      <p class="small-note">แตะคำที่เป็น <b>Kata Nama (คำนาม)</b> ให้ครบ — มีทั้งหมด 3 คำ</p>
+      <div class="word-row" id="miniChallenge">
+        <div class="chip" data-answer="yes">guru</div>
+        <div class="chip" data-answer="no">makan</div>
+        <div class="chip" data-answer="yes">sekolah</div>
+        <div class="chip" data-answer="no">cantik</div>
+        <div class="chip" data-answer="yes">buku</div>
+      </div>
+      <div class="feedback-line" id="miniFeedback"></div>
+      <span class="score-pill" id="miniScore">เลือกถูก 0/3</span>
+      <button class="btn-retry" onclick="resetMini()">↺ ลองใหม่</button>
+      <div class="reveal-box" id="miniReveal">
+        <b>เฉลย:</b> guru, sekolah, buku เป็น Kata Nama (ครู / โรงเรียน / หนังสือ)<br>
+        ส่วน <i>makan</i> (กิน) และ <i>cantik</i> (สวย) ไม่ใช่คำนาม — makan เป็นคำกริยา, cantik เป็นคำคุณศัพท์
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PAGE 3 — JENIS-JENIS ============ -->
+  <section class="page" data-page="3">
+    <div class="page-head">
+      <span class="eyebrow">📖 บทที่ 2</span>
+      <h2>Jenis-jenis Kata Nama</h2>
+      <p class="sub">ประเภทของคำนาม — เริ่มจาก Am และ Khas</p>
+    </div>
+
+    <div class="card">
+      <div class="section-title"><span class="ico">🔵</span><h3>1. Kata Nama Am — คำนามทั่วไป</h3></div>
+      <p style="font-size:14.5px; line-height:1.7;">ใช้เรียกสิ่งต่าง ๆ โดยทั่วไป เช่น</p>
+      <div class="word-row">
+        <span class="chip-inline" style="font-size:14px;">guru</span>
+        <span class="chip-inline" style="font-size:14px;">murid</span>
+        <span class="chip-inline" style="font-size:14px;">sekolah</span>
+        <span class="chip-inline" style="font-size:14px;">bandar</span>
+        <span class="chip-inline" style="font-size:14px;">kucing</span>
+        <span class="chip-inline" style="font-size:14px;">buku</span>
+      </div>
+      <p class="small-note">เช่น guru = ครูทั่วไป (ครูคนไหนก็ได้)</p>
+    </div>
+
+    <div class="card">
+      <div class="section-title"><span class="ico">🟣</span><h3>2. Kata Nama Khas — คำนามเฉพาะ</h3></div>
+      <p style="font-size:14.5px; line-height:1.7;">ใช้เรียกชื่อเฉพาะของคน สถานที่ องค์กร ฯลฯ และมักขึ้นต้นด้วยอักษรตัวใหญ่</p>
+      <div class="word-row">
+        <span class="chip-inline" style="font-size:14px; background:var(--hibiscus);">Aisyah</span>
+        <span class="chip-inline" style="font-size:14px; background:var(--hibiscus);">Ali</span>
+        <span class="chip-inline" style="font-size:14px; background:var(--hibiscus);">Malaysia</span>
+        <span class="chip-inline" style="font-size:14px; background:var(--hibiscus);">Kuala Lumpur</span>
+        <span class="chip-inline" style="font-size:14px; background:var(--hibiscus);">Sekolah Kebangsaan Seri Maju</span>
+      </div>
+      <div class="mnemonic" style="background:var(--hibiscus-dark);">
+        เปรียบเทียบให้เห็นภาพ:<br>
+        <b>guru</b> → Kata Nama Am &nbsp;|&nbsp; <b>Cikgu Siti</b> → Kata Nama Khas<br>
+        <b>bandar</b> → Kata Nama Am &nbsp;|&nbsp; <b>Kuala Lumpur</b> → Kata Nama Khas
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title"><span class="ico">✅</span><h3>ลองดู! Betul atau Salah?</h3></div>
+      <p class="small-note">อ่านประโยคแล้วแตะ BETUL หรือ SALAH</p>
+      <div id="tfList"></div>
+      <span class="score-pill" id="tfScore">ตอบถูก 0/4</span>
+      <button class="btn-retry" onclick="resetTF()">↺ ลองใหม่</button>
+    </div>
+  </section>
+
+  <!-- ============ PAGE 4 — AKTIVITI INTERAKTIF ============ -->
+  <section class="page" data-page="4">
+    <div class="page-head">
+      <span class="eyebrow">🎮 บทที่ 3</span>
+      <h2>Aktiviti Interaktif</h2>
+      <p class="sub">กิจกรรมโต้ตอบ — ฝึกใช้จริง</p>
+    </div>
+
+    <div class="card">
+      <div class="section-title"><span class="ico">🔍</span><h3>Aktiviti 1 — Cari Kata Nama</h3></div>
+      <p class="small-note">แตะคำในประโยคที่เป็น Kata Nama ให้ครบ 4 คำ</p>
+      <div class="sentence-box" id="sentenceBox"></div>
+      <div class="feedback-line" id="sentFeedback"></div>
+      <span class="score-pill" id="sentScore">พบแล้ว 0/4</span>
+      <button class="btn-retry" onclick="resetSentence()">↺ ลองใหม่</button>
+      <div class="reveal-box" id="sentReveal">
+        <b>เฉลย:</b> Ali (คน) – sekolah (สถานที่) – buku (สิ่งของ) – pensel (สิ่งของ)
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title"><span class="ico">🧲</span><h3>Aktiviti 2 — Seret & Lepas</h3></div>
+      <p class="small-note">แตะคำเพื่อเลือก แล้วแตะกล่องหมวดที่ถูกต้อง (Am หรือ Khas)</p>
+      <div class="word-row" id="sortWords"></div>
+      <div class="dropzones">
+        <div class="dropzone" data-zone="am"><h4>KATA NAMA AM</h4><div class="zone-chips" id="zoneAm"></div></div>
+        <div class="dropzone" data-zone="khas"><h4>KATA NAMA KHAS</h4><div class="zone-chips" id="zoneKhas"></div></div>
+      </div>
+      <div class="feedback-line" id="sortFeedback"></div>
+      <span class="score-pill" id="sortScore">จัดถูก 0/8</span>
+      <button class="btn-retry" onclick="resetSort()">↺ ลองใหม่</button>
+    </div>
+  </section>
+
+  <!-- ============ PAGE 5 — KUIZ CABARAN ============ -->
+  <section class="page" data-page="5">
+    <div class="page-head">
+      <span class="eyebrow">🏆 ด่านสุดท้าย</span>
+      <h2>Kuiz Cabaran</h2>
+      <p class="sub">แบบทดสอบท้าทายคำนาม — ตอบให้ครบทั้ง 3 ข้อ</p>
+    </div>
+
+    <div id="quizList"></div>
+
+    <div style="text-align:center; margin-top:16px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+      <button class="btn secondary" id="checkScoreBtn" onclick="checkQuizScore()">ตรวจคะแนน · Semak Markah</button>
+      <button class="btn ghost" style="color:var(--cream); border-color:var(--teal-mid); background:var(--teal-deep);" onclick="resetQuiz()">↺ เล่นคำถามใหม่</button>
+    </div>
+    <p id="quizWarning" style="text-align:center; color:var(--danger); font-size:13px; font-weight:600; margin:10px 0 0; display:none;"></p>
+
+    <div class="score-result" id="scoreResult">
+      <div class="big" id="scoreBig">0/3</div>
+      <div class="tier" id="scoreTier"></div>
+      <div class="tier-th" id="scoreTierTh"></div>
+      <button class="btn small" style="margin-top:14px; background:var(--teal-deep);" onclick="resetQuiz()">↺ ทำแบบทดสอบอีกครั้ง</button>
+    </div>
+
+    <div class="summary-card">
+      <h3>⏱️ จำง่ายใน 10 วินาที</h3>
+      <p style="margin:0; font-size:14px;"><b class="malay">Kata Nama</b> = คำที่ใช้เรียกชื่อสิ่งต่าง ๆ</p>
+      <div class="summary-grid">
+        <div class="box"><b>Manusia</b>คน</div>
+        <div class="box"><b>Haiwan</b>สัตว์</div>
+        <div class="box"><b>Benda</b>สิ่งของ</div>
+        <div class="box"><b>Tempat</b>สถานที่</div>
+        <div class="box"><b>Am</b>ทั่วไป</div>
+        <div class="box"><b>Khas</b>เฉพาะเจาะจง</div>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:22px;">
+      <button class="btn ghost" onclick="restartAll()">↺ Mula Semula — เริ่มใหม่</button>
+    </div>
+  </section>
+
+</div><!-- /app -->
+
+<div class="modal-overlay" id="restartModal">
+  <div class="modal-card">
+    <div class="modal-icon">🔄</div>
+    <h3>เริ่มบทเรียนใหม่?</h3>
+    <p>ความคืบหน้าและคะแนนทั้งหมดจะถูกล้าง แล้วเริ่มจากหน้าปกอีกครั้ง</p>
+    <div class="modal-btns">
+      <button class="btn ghost" style="color:var(--teal-deep); border-color:var(--teal-mid);" onclick="closeRestartModal()">ยกเลิก</button>
+      <button class="btn" onclick="confirmRestart()">ยืนยัน เริ่มใหม่</button>
+    </div>
+  </div>
+</div>
+
+<div class="navbar">
+  <button class="nav-btn" id="prevBtn" onclick="prevPage()">← Kembali</button>
+  <div class="dots" id="dots"></div>
+  <button class="nav-btn" id="nextBtn" onclick="nextPage()">Seterusnya →</button>
+</div>
+
+<script>
+/* ================= PAGE NAV ================= */
+const TOTAL_PAGES = 6;
+let current = 0;
+
+function buildDots(){
+  const dotsEl = document.getElementById('dots');
+  dotsEl.innerHTML = '';
+  for(let i=0;i<TOTAL_PAGES;i++){
+    const d = document.createElement('div');
+    d.className = 'dot' + (i===current ? ' active':'');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  }
+}
+
+function goTo(i){
+  current = Math.max(0, Math.min(TOTAL_PAGES-1, i));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelector('.page[data-page="'+current+'"]').classList.add('active');
+  buildDots();
+  document.getElementById('prevBtn').disabled = current === 0;
+  document.getElementById('nextBtn').innerText = current === TOTAL_PAGES-1 ? 'Selesai ✓' : 'Seterusnya →';
+  window.scrollTo({top:0, behavior:'smooth'});
+  markVisited(current);
+}
+function nextPage(){ if(current < TOTAL_PAGES-1) goTo(current+1); }
+function prevPage(){ if(current > 0) goTo(current-1); }
+
+/* ================= PROGRESS FLOWER / MISSIONS ================= */
+const missionKeys = ['mula','kenali','fahami','cuba','main','cabaran'];
+const progress = {mula:false, kenali:false, fahami:false, cuba:false, main:false, cabaran:false};
+
+function drawPetals(targetGroupId){
+  const g = document.getElementById(targetGroupId);
+  g.innerHTML = '';
+  for(let i=0;i<6;i++){
+    const angle = i * 60;
+    const petal = document.createElementNS('http://www.w3.org/2000/svg','ellipse');
+    petal.setAttribute('cx', 32);
+    petal.setAttribute('cy', 16);
+    petal.setAttribute('rx', 7);
+    petal.setAttribute('ry', 13);
+    petal.setAttribute('transform', 'rotate('+angle+' 32 32)');
+    petal.setAttribute('class','petal');
+    petal.setAttribute('data-i', i);
+    g.appendChild(petal);
+  }
+}
+drawPetals('petalGroup');
+
+// decorative hibiscus (bunga raya) badge on cover — vivid, fully bloomed
+(function drawCoverFlower(){
+  const g = document.getElementById('coverFlower');
+  const colors = ['var(--hibiscus)','var(--gold-bright)'];
+  for(let i=0;i<6;i++){
+    const angle = i*60;
+    const p = document.createElementNS('http://www.w3.org/2000/svg','ellipse');
+    p.setAttribute('cx',0); p.setAttribute('cy',-19);
+    p.setAttribute('rx',11); p.setAttribute('ry',21);
+    p.setAttribute('transform','rotate('+angle+')');
+    p.setAttribute('fill', colors[i%2]);
+    p.setAttribute('stroke','rgba(255,255,255,.55)');
+    p.setAttribute('stroke-width','1');
+    g.appendChild(p);
+  }
+  // stamen
+  const stem = document.createElementNS('http://www.w3.org/2000/svg','line');
+  stem.setAttribute('x1',0); stem.setAttribute('y1',0); stem.setAttribute('x2',0); stem.setAttribute('y2',-30);
+  stem.setAttribute('stroke','var(--emerald)'); stem.setAttribute('stroke-width','3'); stem.setAttribute('stroke-linecap','round');
+  g.appendChild(stem);
+  const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+  c.setAttribute('cx',0); c.setAttribute('cy',0); c.setAttribute('r',9);
+  c.setAttribute('fill','var(--gold-bright)');
+  c.setAttribute('stroke','var(--hibiscus-dark)'); c.setAttribute('stroke-width','1.5');
+  g.appendChild(c);
+})();
+
+function updateFlower(){
+  const doneCount = missionKeys.filter(k => progress[k]).length;
+  document.querySelectorAll('#petalGroup .petal').forEach((p,i)=>{
+    if(i < doneCount) p.classList.add('lit'); else p.classList.remove('lit');
+  });
+  document.getElementById('flowerLabel').innerText = doneCount + '/6 ภารกิจ';
+  missionKeys.forEach(k=>{
+    const el = document.getElementById('m-'+k);
+    if(el) el.classList.toggle('done', progress[k]);
+  });
+  if(doneCount === 6){
+    const fw = document.getElementById('flowerWrap');
+    fw.classList.add('bloom');
+    setTimeout(()=>fw.classList.remove('bloom'), 700);
+  }
+}
+
+function setMission(key){
+  if(!progress[key]){
+    progress[key] = true;
+    updateFlower();
+  }
+}
+
+function markVisited(pageIndex){
+  if(pageIndex===0) setMission('mula');
+  if(pageIndex===2) setMission('kenali');
+  if(pageIndex===3) setMission('fahami');
+}
+
+document.getElementById('flowerWrap').addEventListener('click', ()=> goTo(1));
+
+/* ================= MINI CHALLENGE (page 2) ================= */
+let miniCorrectCount = 0;
+let miniDoneOnes = new Set();
+(function initMini(){
+  const chips = document.querySelectorAll('#miniChallenge .chip');
+  chips.forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      if(chip.classList.contains('correct') || miniDoneOnes.has(chip)) return;
+      const isYes = chip.dataset.answer === 'yes';
+      const fb = document.getElementById('miniFeedback');
+      if(isYes){
+        chip.classList.add('correct');
+        miniCorrectCount++;
+        fb.className = 'feedback-line ok';
+        fb.innerText = '✅ ถูกต้อง! "' + chip.innerText + '" เป็นคำนาม';
+        miniDoneOnes.add(chip);
+        document.getElementById('miniScore').innerText = 'เลือกถูก ' + miniCorrectCount + '/3';
+        if(miniCorrectCount===3){
+          setMission('cuba');
+          document.getElementById('miniReveal').classList.add('show');
+        }
+      } else {
+        chip.classList.add('wrong');
+        fb.className = 'feedback-line bad';
+        fb.innerText = '❌ ลองใหม่! "' + chip.innerText + '" ไม่ใช่คำนาม';
+        setTimeout(()=> chip.classList.remove('wrong'), 500);
+      }
+    });
+  });
+})();
+function resetMini(){
+  miniCorrectCount = 0;
+  miniDoneOnes = new Set();
+  document.querySelectorAll('#miniChallenge .chip').forEach(chip=>{
+    chip.classList.remove('correct','wrong');
+  });
+  document.getElementById('miniFeedback').className = 'feedback-line';
+  document.getElementById('miniFeedback').innerText = '';
+  document.getElementById('miniScore').innerText = 'เลือกถูก 0/3';
+  document.getElementById('miniReveal').classList.remove('show');
+}
+
+/* ================= TRUE / FALSE (page 3) ================= */
+const tfData = [
+  {malay:'"kucing" ialah Kata Nama Am.', th:'kucing เป็น Kata Nama Am', answer:true, explain:'ถูกต้อง — kucing (แมว) เป็นคำนามทั่วไป'},
+  {malay:'"Malaysia" ialah Kata Nama Am.', th:'Malaysia เป็น Kata Nama Am', answer:false, explain:'ผิด — Malaysia เป็นชื่อประเทศ จึงเป็น Kata Nama Khas'},
+  {malay:'"Aisyah" ialah Kata Nama Khas.', th:'Aisyah เป็น Kata Nama Khas', answer:true, explain:'ถูกต้อง — Aisyah เป็นชื่อเฉพาะของบุคคล'},
+  {malay:'"sekolah" ialah Kata Nama Khas.', th:'sekolah เป็น Kata Nama Khas', answer:false, explain:'ผิด — sekolah (โรงเรียน) เป็นคำทั่วไป จึงเป็น Kata Nama Am'}
+];
+let tfScore = 0;
+function renderTF(){
+  const wrap = document.getElementById('tfList');
+  wrap.innerHTML = '';
+  tfScore = 0;
+  document.getElementById('tfScore').innerText = 'ตอบถูก 0/4';
+  tfData.forEach((item, idx)=>{
+    const div = document.createElement('div');
+    div.className = 'tf-item';
+    div.innerHTML = `
+      <p class="malay">${item.malay}<br><span style="font-weight:400; font-size:12.5px; color:var(--ink-soft);">${item.th}</span></p>
+      <div class="tf-btns">
+        <button class="tf-btn" data-v="true">BETUL ✓</button>
+        <button class="tf-btn" data-v="false">SALAH ✗</button>
+      </div>
+      <div class="tf-explain" id="tfExp${idx}">${item.explain}</div>
+    `;
+    wrap.appendChild(div);
+    const btns = div.querySelectorAll('.tf-btn');
+    btns.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        if(btn.dataset.locked) return;
+        const picked = btn.dataset.v === 'true';
+        const correct = item.answer;
+        btns.forEach(b=>b.dataset.locked = '1');
+        if(picked === correct){
+          btn.classList.add('correct-pick');
+          tfScore++;
+        } else {
+          btn.classList.add('wrong-pick');
+          btns.forEach(b=>{ if((b.dataset.v==='true')===correct) b.classList.add('correct-pick'); });
+        }
+        document.getElementById('tfExp'+idx).classList.add('show');
+        document.getElementById('tfScore').innerText = 'ตอบถูก ' + tfScore + '/4';
+      });
+    });
+  });
+}
+renderTF();
+function resetTF(){ renderTF(); }
+
+/* ================= SENTENCE ACTIVITY (page 4) ================= */
+const sentenceWords = [
+  {t:'Ali', noun:true}, {t:'pergi', noun:false}, {t:'ke', noun:false}, {t:'sekolah', noun:true, punc:'. '},
+  {t:'Dia', noun:false}, {t:'membawa', noun:false}, {t:'buku', noun:true}, {t:'dan', noun:false}, {t:'pensel', noun:true, punc:'.'}
+];
+let sentFound = 0;
+(function initSentence(){
+  const box = document.getElementById('sentenceBox');
+  sentenceWords.forEach((w, idx)=>{
+    const span = document.createElement('span');
+    span.className = 'w';
+    span.innerText = w.t;
+    span.dataset.idx = idx;
+    box.appendChild(span);
+    if(w.punc){
+      const p = document.createElement('span');
+      p.className = 'punc';
+      p.innerText = w.punc;
+      box.appendChild(p);
+    } else {
+      box.appendChild(document.createTextNode(' '));
+    }
+    span.addEventListener('click', ()=>{
+      if(span.classList.contains('correct')) return;
+      const fb = document.getElementById('sentFeedback');
+      if(w.noun){
+        span.classList.add('correct');
+        sentFound++;
+        fb.className = 'feedback-line ok';
+        fb.innerText = '✅ ใช่แล้ว! "' + w.t + '" เป็นคำนาม';
+        document.getElementById('sentScore').innerText = 'พบแล้ว ' + sentFound + '/4';
+        if(sentFound === 4){
+          document.getElementById('sentReveal').classList.add('show');
+        }
+      } else {
+        span.classList.add('wrong');
+        fb.className = 'feedback-line bad';
+        fb.innerText = '❌ "' + w.t + '" ไม่ใช่คำนามนะ ลองคำอื่นดู';
+        setTimeout(()=> span.classList.remove('wrong'), 450);
+      }
+    });
+  });
+})();
+function resetSentence(){
+  sentFound = 0;
+  document.querySelectorAll('#sentenceBox .w').forEach(span=>{
+    span.classList.remove('correct','wrong');
+  });
+  document.getElementById('sentFeedback').className = 'feedback-line';
+  document.getElementById('sentFeedback').innerText = '';
+  document.getElementById('sentScore').innerText = 'พบแล้ว 0/4';
+  document.getElementById('sentReveal').classList.remove('show');
+}
+
+/* ================= SORT GAME — Am / Khas (page 4) ================= */
+const sortData = [
+  {t:'guru', type:'am'}, {t:'Malaysia', type:'khas'}, {t:'kucing', type:'am'}, {t:'Aisyah', type:'khas'},
+  {t:'sekolah', type:'am'}, {t:'Kuala Lumpur', type:'khas'}, {t:'buku', type:'am'}, {t:'Ali', type:'khas'}
+];
+let selectedChip = null;
+let sortScore = 0;
+function renderSort(){
+  const wrap = document.getElementById('sortWords');
+  wrap.innerHTML = '';
+  document.getElementById('zoneAm').innerHTML = '';
+  document.getElementById('zoneKhas').innerHTML = '';
+  selectedChip = null;
+  sortScore = 0;
+  document.getElementById('sortScore').innerText = 'จัดถูก 0/8';
+  document.getElementById('sortFeedback').className = 'feedback-line';
+  document.getElementById('sortFeedback').innerText = '';
+  sortData.forEach((item)=>{
+    const chip = document.createElement('div');
+    chip.className = 'chip';
+    chip.innerText = item.t;
+    chip.dataset.type = item.type;
+    wrap.appendChild(chip);
+    chip.addEventListener('click', ()=>{
+      if(chip.classList.contains('placed')) return;
+      document.querySelectorAll('#sortWords .chip').forEach(c=>c.classList.remove('selected'));
+      chip.classList.add('selected');
+      selectedChip = chip;
+    });
+  });
+}
+renderSort();
+function resetSort(){ renderSort(); }
+(function initSortZones(){
+  document.querySelectorAll('.dropzone').forEach(zone=>{
+    zone.addEventListener('click', ()=>{
+      if(!selectedChip) return;
+      const fb = document.getElementById('sortFeedback');
+      const zoneType = zone.dataset.zone;
+      const correct = selectedChip.dataset.type === zoneType;
+      if(correct){
+        const target = zoneType === 'am' ? document.getElementById('zoneAm') : document.getElementById('zoneKhas');
+        const clone = selectedChip.cloneNode(true);
+        clone.classList.add('correct');
+        clone.classList.remove('selected');
+        target.appendChild(clone);
+        selectedChip.classList.add('placed');
+        selectedChip.classList.remove('selected');
+        sortScore++;
+        fb.className = 'feedback-line ok';
+        fb.innerText = '✅ ถูกต้อง! "' + selectedChip.innerText + '" อยู่หมวด ' + (zoneType==='am'?'Am':'Khas');
+        document.getElementById('sortScore').innerText = 'จัดถูก ' + sortScore + '/8';
+        selectedChip = null;
+        if(sortScore === 8) setMission('main');
+      } else {
+        fb.className = 'feedback-line bad';
+        fb.innerText = '❌ ลองใหม่! คำนี้ไม่ได้อยู่หมวดนั้น';
+        zone.classList.add('chip-wrong');
+        zone.animate([{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}], {duration:350});
+      }
+    });
+  });
+})();
+
+/* ================= QUIZ (page 5) ================= */
+const quizData = [
+  {
+    q:'คำใดเป็น Kata Nama?',
+    opts:['makan','buku','cantik','berjalan'],
+    correct:1,
+    explain:'buku (หนังสือ) เป็นคำนาม ส่วนคำอื่นเป็นคำกริยา/คำคุณศัพท์'
+  },
+  {
+    q:'คำใดเป็น Kata Nama Khas?',
+    opts:['sekolah','guru','Malaysia','kucing'],
+    correct:2,
+    explain:'Malaysia เป็นชื่อประเทศ จึงเป็น Kata Nama Khas'
+  },
+  {
+    q:'"Siti membaca buku di sekolah." คำใดเป็น Kata Nama Khas?',
+    opts:['membaca','buku','sekolah','Siti'],
+    correct:3,
+    explain:'Siti เป็นชื่อเฉพาะของบุคคล จึงเป็น Kata Nama Khas'
+  }
+];
+let quizAnswers = new Array(quizData.length).fill(null);
+function renderQuiz(){
+  const wrap = document.getElementById('quizList');
+  wrap.innerHTML = '';
+  quizAnswers = new Array(quizData.length).fill(null);
+  quizData.forEach((item, qi)=>{
+    const div = document.createElement('div');
+    div.className = 'quiz-item';
+    div.innerHTML = `
+      <div class="q-title">ข้อ ${qi+1}</div>
+      <div class="q-sub">${item.q}</div>
+      <div class="opts-wrap"></div>
+      <div class="quiz-explain" id="qexp${qi}">💡 ${item.explain}</div>
+    `;
+    wrap.appendChild(div);
+    const optsWrap = div.querySelector('.opts-wrap');
+    item.opts.forEach((optText, oi)=>{
+      const btn = document.createElement('button');
+      btn.className = 'opt';
+      btn.innerText = String.fromCharCode(65+oi) + '. ' + optText;
+      btn.addEventListener('click', ()=>{
+        if(quizAnswers[qi] !== null) return;
+        quizAnswers[qi] = oi;
+        const allOpts = optsWrap.querySelectorAll('.opt');
+        allOpts.forEach(o=>o.disabled = true);
+        if(oi === item.correct){
+          btn.classList.add('chosen-correct');
+        } else {
+          btn.classList.add('chosen-wrong');
+          allOpts[item.correct].classList.add('reveal-correct');
+        }
+        document.getElementById('qexp'+qi).classList.add('show');
+      });
+      optsWrap.appendChild(btn);
+    });
+  });
+}
+renderQuiz();
+
+function checkQuizScore(){
+  const unanswered = quizAnswers.filter(a=>a===null).length;
+  const warn = document.getElementById('quizWarning');
+  if(unanswered > 0){
+    warn.innerText = '⚠️ กรุณาตอบให้ครบทุกข้อก่อนตรวจคะแนนนะ (เหลืออีก ' + unanswered + ' ข้อ)';
+    warn.style.display = 'block';
+    return;
+  }
+  warn.style.display = 'none';
+  let score = 0;
+  quizData.forEach((item, qi)=>{ if(quizAnswers[qi] === item.correct) score++; });
+  document.getElementById('scoreBig').innerText = score + '/3';
+  let tier, tierTh;
+  if(score === 3){ tier = 'Pakar Kata Nama! 🌟'; tierTh = 'เก่งมาก! คุณเป็นผู้เชี่ยวชาญคำนามแล้ว'; }
+  else if(score === 2){ tier = 'Bagus! Teruskan!'; tierTh = 'ดีมาก ลองทบทวนอีกนิดแล้วจะเก่งขึ้น'; }
+  else { tier = 'Jangan putus asa! Cuba lagi!'; tierTh = 'ไม่เป็นไร ลองย้อนกลับไปทบทวนแล้วมาลองใหม่นะ'; }
+  document.getElementById('scoreTier').innerText = tier;
+  document.getElementById('scoreTierTh').innerText = tierTh;
+  document.getElementById('scoreResult').classList.add('show');
+  setMission('cabaran');
+  document.getElementById('checkScoreBtn').disabled = true;
+}
+function resetQuiz(){
+  renderQuiz();
+  document.getElementById('scoreResult').classList.remove('show');
+  document.getElementById('checkScoreBtn').disabled = false;
+  const warn = document.getElementById('quizWarning');
+  if(warn) warn.style.display = 'none';
+}
+
+/* ================= RESTART (custom modal — native confirm() is blocked in sandboxed previews) ================= */
+function restartAll(){
+  document.getElementById('restartModal').classList.add('show');
+}
+function closeRestartModal(){
+  document.getElementById('restartModal').classList.remove('show');
+}
+function confirmRestart(){
+  closeRestartModal();
+  // reset all mission/progress state
+  missionKeys.forEach(k => progress[k] = false);
+  updateFlower();
+  // reset every activity back to its starting state
+  resetMini();
+  resetTF();
+  resetSentence();
+  resetSort();
+  resetQuiz();
+  // jump back to the cover page
+  goTo(0);
+}
+
+/* init */
+buildDots();
+updateFlower();
+</script>
+</body>
+</html>
